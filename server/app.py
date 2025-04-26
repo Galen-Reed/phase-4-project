@@ -98,7 +98,7 @@ def get_tickets():
 
 @app.route('/tickets/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
 def ticket_by_id(id):
-    ticket = Ticket.query.filter_by_id(id=id).first()
+    ticket = Ticket.query.filter_by(id=id).first()
 
     if request.method == 'GET':
         if ticket:

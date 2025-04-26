@@ -15,6 +15,7 @@ class User(db.Model, SerializerMixin):
     #relationships
     devices = db.relationship('Device', back_populates='user')
     tickets = db.relationship('Ticket', back_populates='user')
+    user_tickets = db.relationship('UserTicket', backref='user', lazy=True)
 
     def __repr__(self):
         return f"<User {self.name}>"
@@ -30,8 +31,9 @@ class Device(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     #relationships
-    users = db.relationship('User', back_populates='device')
+    user = db.relationship('User', back_populates='devices')
     tickets = db.relationship('Ticket', back_populates='device')
+    
 
     def __repr__(self):
         return f"<Device {self.name}, asset {self.id}>"
@@ -52,7 +54,20 @@ class Ticket(db.Model, SerializerMixin):
     #relationships
     user = db.relationship('User', back_populates='tickets', overlaps='devices, users')
     device = db.relationship('Device', back_populates='tickets', overlaps='devices, users')
+    user_tickets = db.relationship('UserTicket', backref='ticket', lazy=True)
 
     def __repr__(self):
         return f"<Ticket {self.id}>"
+    
+class UserTicket(db.Model, SerializerMixin):
+    __tablename__ = 'user_ticket'
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    ticket_id = db.Column(db.Integer, db.ForeignKey('tickets.id'), primary_key=True)
+    role = db.Column(db.String)
+    assigned_date = db.Column(db.DateTime, server_default=db.func.now())
+
+    #relationships
+    user = db.relationship('User', backref=db.backref('user_tickets', lazy=True))
+    ticket = db.relationship('Ticket', backref=db.backref('user_tickets', lazy=True))
     

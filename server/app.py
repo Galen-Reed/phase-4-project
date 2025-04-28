@@ -28,7 +28,7 @@ def users_by_id(id):
 
     if request.method == 'GET':
         if user:
-            return make_response(user, 200)
+            return make_response(user.to_dict(), 200)
         else:
             return {'error': 'User not found'}, 404
         
@@ -52,7 +52,7 @@ def devices_by_id(id):
 
     if request.method == 'GET':
         if device:
-            return make_response(device, 200)
+            return make_response(device.to_dict(), 200)
         else:
             return {'error': 'Device not found'}, 404
         
@@ -102,7 +102,7 @@ def ticket_by_id(id):
 
     if request.method == 'GET':
         if ticket:
-            return make_response(ticket, 202)
+            return make_response(ticket.to_dict(), 202)
         else:
             return {'error': 'Ticket not found'}, 404
         

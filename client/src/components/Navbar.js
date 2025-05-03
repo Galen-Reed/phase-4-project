@@ -9,6 +9,7 @@ function Navbar() {
       </div>
       <nav>
         <Link to="/">Home</Link>
+        <Link to="/tickets">Tickets</Link>
         <Link to="/devices">Devices</Link>
       </nav>
     </header>

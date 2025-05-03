@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import NewTicketForm from "./NewTicketForm";
+import TicketCard from "./TicketCard";
+
+
 
 function TicketBoard() {
 
@@ -15,24 +18,17 @@ function TicketBoard() {
         setTickets([...tickets, addTicket])
     }
 
-    console.log(tickets)
-
     return (
-        <div>
-            <h1>Ticket board?!</h1>
-            {tickets.map((ticket) => (
-                <div key={ticket.id}>
-                    <h3>{ticket.title}</h3>
-                    <p>Ticket number {ticket.id}</p>
-                    <p>Assigned to {ticket.technician.id}</p>
-                    <p>Device {ticket.device.id}</p>
-                    <p>User {ticket.user.name}</p>
-                    <p>Status: {ticket.status}</p>
-                    <p>Ticket created {ticket.created_at}</p>
-                </div>
-            ))}
-            <NewTicketForm addTicket={handleNewTicket}/>
-        </div>
+
+            <div>
+                <h1>Ticket board?!</h1>
+                <NewTicketForm addTicket={handleNewTicket}/>
+                {tickets.map(ticket => (
+                    <TicketCard key={ticket.id} ticket={ticket} />
+                ))}
+
+            </div>
+
     )
 }
 

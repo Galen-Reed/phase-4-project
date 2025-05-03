@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import NewTicketForm from "./NewTicketForm";
 
 function TicketBoard() {
 
@@ -10,7 +11,11 @@ function TicketBoard() {
         .then((data) => setTickets(data));
     }, []);
 
-    console.log(tickets);
+    function handleNewTicket(addTicket) {
+        setTickets([...tickets, addTicket])
+    }
+
+    console.log(tickets)
 
     return (
         <div>
@@ -19,13 +24,14 @@ function TicketBoard() {
                 <div key={ticket.id}>
                     <h3>{ticket.title}</h3>
                     <p>Ticket number {ticket.id}</p>
-                    <p>Assigned to {ticket.technician_id}</p>
-                    <p>Device {ticket.device_id}</p>
+                    <p>Assigned to {ticket.technician.id}</p>
+                    <p>Device {ticket.device.id}</p>
                     <p>User {ticket.user.name}</p>
                     <p>Status: {ticket.status}</p>
                     <p>Ticket created {ticket.created_at}</p>
                 </div>
             ))}
+            <NewTicketForm addTicket={handleNewTicket}/>
         </div>
     )
 }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { List, ListItem, ListItemText, Typography, Paper } from "@mui/material";
+import { List, ListItem, ListItemText, Typography, Paper, ListItemIcon } from "@mui/material";
+import { LaptopMac, PhoneAndroid, TabletAndroid } from "@mui/icons-material";
 
 function DeviceList() {
 
@@ -11,6 +12,19 @@ function DeviceList() {
         .then((data) => setDevices(data));
     }, []);
 
+    const getDeviceIcon = (type) => {
+        switch (type) {
+            case 'laptop':
+                return <LaptopMac />
+            case 'phone':
+                return <PhoneAndroid />
+            case 'tablet':
+                return <TabletAndroid />
+            default:
+                return null;
+        }
+    };
+
     console.log(devices);
 
     return (
@@ -21,9 +35,12 @@ function DeviceList() {
             <List>
             {devices.map((device) => (
                 <ListItem key={device.id} divider>
+                    <ListItemIcon>
+                        {getDeviceIcon(device.type)}
+                    </ListItemIcon>
                     <ListItemText 
                         primary={device.name}
-                        secondary={`Type: ${device.type} | Assigned to User ID: ${device.user_id}`}
+                        secondary={`Type: ${device.type} | Assigned to User ID: ${device.user.id} | SN#${device.serial_number}`}
                     />
                 </ListItem>
             ))}
@@ -33,9 +50,3 @@ function DeviceList() {
 }
 
 export default DeviceList;
-
-{/* <h3>Device name: {device.name}</h3>
-                    <p>Device Id: {device.id}</p>
-                    <p>Serial Number: {device.serial_number}</p>
-                    <p>Status: {device.status}</p>
-                    <p>Type: {device.type}</p> */}

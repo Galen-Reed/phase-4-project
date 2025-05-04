@@ -76,8 +76,15 @@ def get_tickets():
         data = request.get_json()
 
         required_fields = ['title', 'description', 'status', 'user_id', 'technician_id', 'device_id']
-        if not all(field in data for field in required_fields):
-            return {'errors': ['validation errors']}
+        errors = []
+        
+        for field in required_fields:
+            value = data.get(field)
+            if not value:
+                errors.append(f"{field.capitalize()} is required.")
+
+        if errors:
+            return make_response({'errors': errors}, 400)
         
         try: 
             new_ticket = Ticket(
@@ -93,8 +100,9 @@ def get_tickets():
             db.session.commit()
 
             return make_response(new_ticket.to_dict(), 201)
-        except Exception:
-            return {'errors': ['validation errors']}
+        except Exception as e:
+            db.session.rollback()
+            return make_response({'errors': ['Failed to create ticket.']}, 500)
 
 @app.route('/tickets/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
 def ticket_by_id(id):
@@ -132,7 +140,7 @@ def ticket_by_id(id):
 
         db.session.commit()
 
-        return make_response(ticket, 200)
+        return make_response(ticket.to_dict(), 200)
 
     elif request.method == 'DELETE':
         if not ticket:

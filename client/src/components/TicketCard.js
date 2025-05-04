@@ -22,7 +22,6 @@ function TicketCard({ ticket }) {
         <Typography>Assigned to: {ticket.technician.id}</Typography>
         <Typography>Device {ticket.device.id}</Typography>
         <Typography>User {ticket.user.name}</Typography>
-        <Typography>Status: {ticket.status}</Typography>
         <Typography>Ticket created {ticket.created_at}</Typography>
       </CardContent>
     </Card>

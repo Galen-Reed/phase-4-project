@@ -40,6 +40,7 @@ function TicketDetail() {
   }
 
   function handleSubmit(e) {
+    e.preventDefault();
     fetch(`/tickets/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" 
@@ -47,7 +48,7 @@ function TicketDetail() {
       body: JSON.stringify(formData),
     })
       .then((response) => response.json())
-      .then(() => history.replace("/tickets"));
+      .then(() => history.push("/tickets"));
   }
 
   return (

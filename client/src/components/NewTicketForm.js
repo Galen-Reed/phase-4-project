@@ -1,3 +1,5 @@
+import { TextField } from "@mui/material";
+import Button from "@mui/material/Button"
 import { useEffect, useState } from "react";
 
 function NewTicketForm( { addTicket }) {
@@ -36,15 +38,59 @@ function NewTicketForm( { addTicket }) {
 
     return (
         <div className="ticket-form">
-            <h1>New ticket form!</h1>
+            <h1>Create a new ticket!</h1>
             <form onSubmit={handleSubmit}>
-                <input type="text" name="title" placeholder="Enter ticket's title" value={formData.title} onChange={handleChange}/>
-                <input type="text" name="description" placeholder="Enter ticket's description" value={formData.description} onChange={handleChange}/>
-                <input type="text" name="status" placeholder="Enter ticket's status" value={formData.status} onChange={handleChange}/>
-                <input type="text" name="user_id" placeholder="Enter affected user id" value={formData.user_id} onChange={handleChange}/>
-                <input type="text" name="technician_id" placeholder="Enter assigned technician's id" value={formData.technician_id} onChange={handleChange}/>
-                <input type="text" name="device_id" placeholder="Enter affected device id" value={formData.device_id} onChange={handleChange}/>
-                <button type="submit">Create new ticket</button>
+            <TextField
+                label="Title"
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+            />
+            <TextField
+                label="Description"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+            />
+            <TextField
+                label="Status"
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+            />
+            <TextField
+                label="User ID"
+                name="user_id"
+                value={formData.user_id}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+            />
+            <TextField
+                label="Technician ID"
+                name="technician_id"
+                value={formData.technician_id}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+            />
+            <TextField
+                label="Device ID"
+                name="device_id"
+                value={formData.device_id}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+            />
+            <Button type="submit" variant="contained" sx={{ mt: 2 }}>
+                Create Ticket
+            </Button>
             </form>
         </div>
     )

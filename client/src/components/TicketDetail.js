@@ -53,7 +53,7 @@ function TicketDetail() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Edit Ticket</h2>
+      <h1>Edit Ticket</h1>
       <TextField
         label="Title"
         name="title"

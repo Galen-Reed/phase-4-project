@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { List, ListItem, ListItemText, Typography, Paper } from "@mui/material";
 
 function DeviceList() {
 
@@ -13,19 +14,28 @@ function DeviceList() {
     console.log(devices);
 
     return (
-        <div>
-            <h1>Devices by the million!</h1>
+        <Paper sx={{ padding: 2, maxWidth: 800, margin: '0 auto' }}>
+            <Typography variant="h6" gutterBottom>
+                Inventory Sheet
+            </Typography>
+            <List>
             {devices.map((device) => (
-                <div key={device.id}>
-                    <h3>Device name: {device.name}</h3>
-                    <p>Device Id: {device.id}</p>
-                    <p>Serial Number: {device.serial_number}</p>
-                    <p>Status: {device.status}</p>
-                    <p>Type: {device.type}</p>
-                </div>
+                <ListItem key={device.id} divider>
+                    <ListItemText 
+                        primary={device.name}
+                        secondary={`Type: ${device.type} | Assigned to User ID: ${device.user_id}`}
+                    />
+                </ListItem>
             ))}
-        </div>
+            </List>
+        </Paper>
     )
 }
 
 export default DeviceList;
+
+{/* <h3>Device name: {device.name}</h3>
+                    <p>Device Id: {device.id}</p>
+                    <p>Serial Number: {device.serial_number}</p>
+                    <p>Status: {device.status}</p>
+                    <p>Type: {device.type}</p> */}

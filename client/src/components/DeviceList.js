@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { List, ListItem, ListItemText, Typography, Paper, ListItemIcon } from "@mui/material";
-import { LaptopMac, PhoneAndroid, TabletAndroid } from "@mui/icons-material";
+import ComputerIcon from '@mui/icons-material/Computer';
+import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
+import TabletIcon from '@mui/icons-material/Tablet';
 
 function DeviceList() {
 
@@ -13,13 +15,15 @@ function DeviceList() {
     }, []);
 
     const getDeviceIcon = (type) => {
-        switch (type) {
+        switch (type.toLowerCase()) {
             case 'laptop':
-                return <LaptopMac />
+            case 'desktop':
+            case 'computer':
+                return <ComputerIcon sx={{ marginRight: 1 }}/>
             case 'phone':
-                return <PhoneAndroid />
+                return <PhoneIphoneIcon sx={{ marginRight: 1 }}/>
             case 'tablet':
-                return <TabletAndroid />
+                return <TabletIcon sx={{ marginRight: 1 }}/>
             default:
                 return null;
         }

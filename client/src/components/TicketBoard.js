@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Button from "@mui/material/Button";
 import Collapse from "@mui/material/Collapse";
 import NewTicketForm from "./NewTicketForm";
@@ -6,21 +6,8 @@ import TicketCard from "./TicketCard";
 
 
 
-function TicketBoard() {
+function TicketBoard({ tickets, showForm, setShowForm, addTicket, handleDelete }) {
 
-    const [tickets, setTickets] = useState([]);
-    const [showForm, setShowForm] = useState(false);
-
-    useEffect(() => {
-        fetch("http://127.0.0.1:5555/tickets")
-        .then((response) => response.json())
-        .then((data) => setTickets(data));
-    }, []);
-
-    function handleNewTicket(addTicket) {
-        setTickets([...tickets, addTicket]);
-        setShowForm(false);
-    }
 
     return (
 
@@ -29,10 +16,10 @@ function TicketBoard() {
                     {showForm ? "Cancel" : "Create Ticket"}
                 </Button>
                 <Collapse in={showForm}>
-                    <NewTicketForm addTicket={handleNewTicket} />
+                    <NewTicketForm addTicket={addTicket} />
                 </Collapse>
                 {tickets.map(ticket => (
-                    <TicketCard key={ticket.id} ticket={ticket} />
+                    <TicketCard key={ticket.id} ticket={ticket} onDelete={handleDelete}/>
                 ))}
 
             </div>

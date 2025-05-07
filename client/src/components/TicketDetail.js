@@ -3,7 +3,7 @@ import { useParams, useHistory } from "react-router-dom";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 
-function TicketDetail() {
+function TicketDetail({ onUpdateTicket }) {
   const { id } = useParams();
   const history = useHistory(); 
 
@@ -48,7 +48,10 @@ function TicketDetail() {
       body: JSON.stringify(formData),
     })
       .then((response) => response.json())
-      .then(() => history.push("/tickets"));
+      .then((updatedTicket) => {
+        onUpdateTicket(updatedTicket)
+        history.push("/tickets");
+      });
   }
 
   return (

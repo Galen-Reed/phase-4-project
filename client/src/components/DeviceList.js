@@ -1,18 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { List, ListItem, ListItemText, Typography, Paper, ListItemIcon } from "@mui/material";
 import ComputerIcon from '@mui/icons-material/Computer';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import TabletIcon from '@mui/icons-material/Tablet';
 
-function DeviceList() {
-
-    const [devices, setDevices] = useState([]);
-
-    useEffect(() => {
-        fetch("http://127.0.0.1:5555/devices")
-        .then((response) => response.json())
-        .then((data) => setDevices(data));
-    }, []);
+function DeviceList({ devices }) {
 
     const getDeviceIcon = (type) => {
         switch (type.toLowerCase()) {
@@ -44,7 +36,7 @@ function DeviceList() {
                     </ListItemIcon>
                     <ListItemText 
                         primary={device.name}
-                        secondary={`Type: ${device.type} | Assigned to User ID: ${device.user.id} | SN#${device.serial_number}`}
+                        secondary={`Type: ${device.type} | Assigned to User: ${device.user.name} | SN#${device.serial_number}`}
                     />
                 </ListItem>
             ))}

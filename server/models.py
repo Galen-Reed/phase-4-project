@@ -1,5 +1,6 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
+from datetime import datetime
 
 from config import db
 
@@ -175,8 +176,8 @@ class UserTicket(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
     ticket_id = db.Column(db.Integer, db.ForeignKey('tickets.id'), primary_key=True)
-    role = db.Column(db.String)
-    assigned_date = db.Column(db.DateTime, server_default=db.func.now())
+    notes = db.Column(db.Text, nullable=True)
+    timestamp = db.Column(db.DateTime, default=datetime.now)
 
  
     user = db.relationship('User', back_populates='user_tickets')
@@ -205,8 +206,8 @@ class UserTicket(db.Model):
         data = {
             "user_id": self.user_id,
             "ticket_id": self.ticket_id,
-            "role": self.role,
-            "assigned_date": self.assigned_date
+            "notes": self.notes,
+            "timestamp": self.timestamp
         }
 
         if include_nested:

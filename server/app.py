@@ -151,6 +151,49 @@ def ticket_by_id(id):
 
         return make_response({}, 204)
     
+@app.route('/tickets/<int:ticket_id>/notes', methods=['GET', 'POST'])
+def get_and_post_ticket_notes(ticket_id):
+    user_tickets = UserTicket.query.filter_by(ticket_id=ticket_id).all()
+
+    if request.method == 'GET':
+        return make_response([ut.to_dict() for ut in user_tickets])
+    
+    elif request.method == 'POST':
+        data = request.get_json()
+
+        new_note = UserTicket(
+            user_id=data['user_id'],
+            ticket_id=ticket_id,
+            notes=data['notes']
+        )
+
+        db.session.add(new_note)
+        db.session.commit()
+        
+        return make_response(new_note.to_dict())
+        
+@app.route('/tickets/<int:ticket_id>/notes/<user_id>', methods=['PATCH', 'DELETE'])
+def patch_and_del_ticket_notes(ticket_id, user_id):
+    user_ticket = UserTicket.query.filter_by(ticket_id=ticket_id, user_id=user_id).first()
+
+    if not user_ticket:
+        return {"error": "Note not found"}, 404
+    
+    if request.method == 'PATCH':
+        data = request.get_json()
+        
+        user_ticket.notes = data.get('notes', user_ticket.notes)
+        db.session.commit()
+
+        return make_response(user_ticket.to_dict())
+    
+    elif request.method == 'DELETE':
+
+        db.session.delete(user_ticket)
+        db.session.commit()
+
+        return make_response({}, 204)
+
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
 

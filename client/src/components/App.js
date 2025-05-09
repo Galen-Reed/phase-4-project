@@ -12,6 +12,7 @@ function App() {
 
   const [tickets, setTickets] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [devices, setDevices] = useState([]);
 
   useEffect(() => {
       fetch("http://127.0.0.1:5555/tickets")
@@ -40,7 +41,7 @@ function App() {
     );
   }
 
-  const [devices, setDevices] = useState([]);
+ 
 
   useEffect(() => {
       fetch("http://127.0.0.1:5555/devices")

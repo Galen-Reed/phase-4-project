@@ -41,10 +41,43 @@ def users_by_id(id):
 
         return make_response({}, 204)
 
-@app.route('/devices')
+@app.route('/devices', methods=['GET', 'POST'])
 def get_devices():
     devices = [device.to_dict() for device in Device.query.all()]
-    return make_response(devices, 200)
+
+    if request.method == 'GET':
+        return make_response(devices, 200)
+    
+    elif request.method == 'POST':
+        data = request.get_json()
+
+        required_fields = ['name', 'type', 'serial_number', 'status', 'user_id']
+        errors = []
+
+        for field in required_fields:
+            value = data.get(field)
+            if not value:
+                errors.append(f"{field.capitalize()} is required.")
+        if errors:
+            return make_response({'errors': errors}, 400)
+        
+        try: 
+            new_device = Device(
+                name=data['name'],
+                type=data['type'],
+                status=data['status'],
+                serial_number=data['serial_number'],
+                user_id=data['user_id'],
+            )
+
+            db.session.add(new_device)
+            db.session.commit()
+
+            return make_response(new_device.to_dict(), 201)
+        except Exception as e:
+            db.session.rollback()
+            return make_response({'errors': ['Failed to create device.']}, 500)
+        
 
 @app.route('/devices/<int:id>', methods=['GET', 'DELETE'])
 def devices_by_id(id):

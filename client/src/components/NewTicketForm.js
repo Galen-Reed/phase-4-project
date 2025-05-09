@@ -1,6 +1,6 @@
 import { TextField } from "@mui/material";
 import Button from "@mui/material/Button"
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function NewTicketForm( { addTicket }) {
 
